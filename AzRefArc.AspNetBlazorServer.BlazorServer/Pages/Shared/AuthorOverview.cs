@@ -1,6 +1,6 @@
 ﻿namespace AzRefArc.AspNetBlazorServer.BlazorServer.Pages.Shared
 {
-    public class AuthorOverview
+    public record AuthorOverview
     {
         public string AuthorId { get; set; } = String.Empty;
         public string AuthorName { get; set; } = String.Empty;
