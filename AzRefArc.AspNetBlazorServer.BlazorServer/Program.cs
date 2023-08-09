@@ -2,6 +2,11 @@ using AzRefArc.AspNetBlazorServer.BlazorServer.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+
+// ※ 既定でインストールされている System.Drawing.Common.dll のバージョンが古く（5.0.0）、コンテナスキャンでエラーが出るため、
+// アプリでは利用していないが System.Drawing.Common.dll の 7.0.0 の NuGet パッケージを参照している
+Console.WriteLine(Assembly.Load("System.Drawing.Common").FullName);
 
 var builder = WebApplication.CreateBuilder(args);
 
