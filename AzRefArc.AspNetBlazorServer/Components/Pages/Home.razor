@@ -1,0 +1,55 @@
+﻿@page "/"
+
+@* ページ動作モード *@
+@* 指定なし（Static） *@
+
+<PageTitle>ASP.NET Core Blazor Server 業務サンプルアプリケーション</PageTitle>
+
+<div class="row">
+    <img src="/Images/banner.png" class="img-responsive" style="margin: 0 auto;" /> @* img-responsive にすると画像サイズが動的に変化。margin: 0 auto; によりセンタリング *@
+</div>
+
+<div style="height: 10px"></div>
+
+<div class="row">
+    <div>
+        <h5 id="bizGroupA">ASP.NET Core Blazor による業務サンプルアプリ</h5>
+        <ul>
+            <li id="BizGroupA">
+                Server 参照系アプリ
+                <ul>
+                    <li><a href="/BizGroupA/ShowAllAuthors/ListAuthors">全著者データの表示</a></li>
+                    <li><a href="/BizGroupA/ShowAuthorsByState/FilterByState">州による著者データ検索</a></li>
+                    <li><a href="/BizGroupA/ShowAuthorsByState/FilterByStateWithSort">州による著者データ検索(ソート機能つき)</a></li>
+                    <li><a href="/BizGroupA/ShowAuthorsByState/FilterByStateWithSort2">州による著者データ検索(ソート機能つき・部品再利用)</a></li>
+                    <li><a href="/BizGroupA/ShowAuthorsByTopN/FilterByTopN">件数による著者データ検索</a></li>
+                    <li><a href="/BizGroupA/ShowAuthorsByCondition/FilterByCondition">複雑な条件による著者データ検索</a></li>
+                </ul>
+            </li>
+            <li id="BizGroupB">
+                Server 更新系アプリ
+                <ul>
+                    <li><a href="/BizGroupB/EditAuthorByOptimistic/ListAuthors">著者データの編集 (楽観同時実行制御)</a></li>
+                </ul>
+            </li>
+            <li id="BizGroupC">
+                Server QuickGrid による実装アプリ
+                <ul>
+                    <li><a href="/BizGroupC/ShowAllAuthors/ListAuthors">全著者データの表示</a></li>
+                    <li><a href="/BizGroupC/ShowAuthorsByState/FilterByState">州による著者データ検索</a></li>
+                    <li><a href="/BizGroupC/ShowAuthorsByTopN/FilterByTopN">件数による著者データ検索</a></li>
+                    <li><a href="/BizGroupC/ShowAuthorsByCondition/FilterByCondition">複雑な条件による著者データ検索</a></li>
+                    <li><a href="/BizGroupC/ShowAuthorDetail/ShowAuthorDetail">著者の詳細情報の表示</a></li>
+                </ul>
+            </li>
+            <li id="Utilities">
+                ユーティリティ
+                <ul>
+                    <li><a href="/Utilities/DiagnosticsServer">サーバ診断情報</a></li>
+                    <li><a href="/Utilities/RaiseException">サンプル例外発生</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
