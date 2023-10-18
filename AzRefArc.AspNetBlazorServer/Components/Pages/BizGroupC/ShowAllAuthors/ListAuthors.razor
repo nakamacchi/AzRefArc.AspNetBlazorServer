@@ -16,9 +16,13 @@
 
 <hr />
 
-@if (this.authors == null)
+@if (authors == null)
 {
-    <div>データロード中...</div>
+    <p>データをロード中です...</p>
+}
+else if (authors.Count == 0)
+{
+    <p>データがありません。</p>
 }
 else
 {

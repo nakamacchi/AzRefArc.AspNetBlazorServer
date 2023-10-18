@@ -8,17 +8,17 @@
 
 <h3>著者の詳細情報の表示 (1 画面版)</h3>
 
-<div>
-    @if (authors == null)
-    {
-        <p>データをロード中です...</p>
-    }
-    else if (authors.Count == 0)
-    {
-        <p>データがありません。</p>
-    }
-    else
-    {
+@if (authors == null)
+{
+    <p>データをロード中です...</p>
+}
+else if (authors.Count == 0)
+{
+    <p>データがありません。</p>
+}
+else
+{
+    <div class="table-responsive">
         <QuickGrid Items="@authors.AsQueryable()" Pagination="@paginationState">
             <TemplateColumn Title="著者ID" Sortable="true">
                 <!-- 通常のボタンを使いたい場合 -->
@@ -39,8 +39,8 @@
 
         <!-- 表示するページを、paginationState データを介して連携 -->
         <Paginator State="@paginationState" />
-    }
-</div>
+    </div>
+}
 
 @if (authorToDisplay == null)
 {
