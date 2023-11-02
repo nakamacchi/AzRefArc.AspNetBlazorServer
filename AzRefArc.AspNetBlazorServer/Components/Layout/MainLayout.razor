@@ -15,114 +15,15 @@
         </div>
 
         <article class="content px-4">
-            <ErrorBoundary @ref="boundary">
-                <ChildContent>
-                    @Body
-                </ChildContent>
-                <ErrorContent>
-                    アプリケーションでエラーが発生しました。
-                    @if (env.IsDevelopment())
-                    {
-                        <hr />
-                        @((MarkupString)GetExceptionString(context).Replace("\n", "<br />"))
-                    }
-                </ErrorContent>
-            </ErrorBoundary>
+            @Body
         </article>
     </main>
 </div>
 
 <div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
+    <div id="blazor-error-ui-message">
+        未処理例外が発生しました。アプリケーションをリロードしてやり直してください。
+        <a href="" class="reload">Reload</a>
+        @* <a class="dismiss">🗙</a> *@
+    </div>
 </div>
-
-@using System.Reflection
-@using System.Text
-@code
-{
-    // エラーから復帰するための処理
-    ErrorBoundary? boundary;
-    protected override void OnParametersSet()
-    {
-        boundary?.Recover();
-    }
-
-    public string GetExceptionString(Exception ex)
-    {
-        string detailedException = ConvertExceptionToString(ex);
-        logger!.LogError(detailedException);
-        return detailedException;
-    }
-
-    private static string ConvertExceptionToString(Exception exception)
-    {
-        Dictionary<string, string> _generalInformation = new Dictionary<string, string>();
-
-        if (exception == null) return "例外オブジェクト情報はありません。\r\n\r\n";
-        StringBuilder strInfo = new StringBuilder("****** 一般情報 ******\r\n\r\n");
-
-        // 一般情報を取得して文字列化
-        // 発生時刻は上書き(なければ追加)
-        _generalInformation["発生時刻"] = DateTimeOffset.Now.ToString();
-
-        // 自身のアセンブリ情報の設定
-        Assembly myAssembly = typeof(App).GetTypeInfo().Assembly;
-        // バージョンの設定
-        _generalInformation["フレームワークアセンブリ情報"] = myAssembly.GetName().FullName;
-
-        foreach (var key in _generalInformation.Keys)
-        {
-            strInfo.Append(key + ": " + _generalInformation[key] + "\r\n");
-        }
-        strInfo.Append("\r\n****** 例外情報 ******");
-
-        // ネストされた例外を順次文字列化する
-        Exception? currentException = exception!;
-        int intExceptionCount = 1;
-        do
-        {
-            strInfo.AppendFormat("\r\n\r\n{0}) 例外オブジェクト情報\r\n{1}", intExceptionCount.ToString(), "");
-            strInfo.AppendFormat("\r\nException Type: {0}", currentException.GetType().FullName);
-
-            try
-            {
-                PropertyInfo[] aryPublicProperties = currentException.GetType().GetRuntimeProperties().ToArray();
-                foreach (PropertyInfo p in aryPublicProperties)
-                {
-                    if (p.Name != "InnerException" && p.Name != "StackTrace")
-                    {
-                        try
-                        {
-                            if (p.GetValue(currentException, null) == null)
-                            {
-                                strInfo.AppendFormat("\r\n{0}: NULL", p.Name);
-                            }
-                            else
-                            {
-                                strInfo.AppendFormat("\r\n{0}: {1}", p.Name, p.GetValue(currentException, null));
-                            }
-                        }
-                        catch (Exception)
-                        {
-                        }
-                    }
-                }
-            }
-            catch (Exception)
-            {
-            }
-
-            if (currentException.StackTrace != null)
-            {
-                strInfo.AppendFormat("\r\n\r\nスタックトレース情報");
-                strInfo.AppendFormat("\r\n{0}\n", currentException.StackTrace);
-            }
-            currentException = currentException.InnerException;
-            intExceptionCount++;
-        } while (currentException != null);
-
-        return strInfo.ToString();
-    }
-}

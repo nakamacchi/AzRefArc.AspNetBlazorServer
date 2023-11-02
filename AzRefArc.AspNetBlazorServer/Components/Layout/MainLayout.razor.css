@@ -77,10 +77,20 @@ main {
 }
 
 #blazor-error-ui {
+    position: fixed; /* 位置を固定 */
+    top: 0; /* 画面の上端から0pxの位置に配置 */
+    left: 0; /* 画面の左端から0pxの位置に配置 */
+    width: 100%; /* 幅を100%に設定 */
+    height: 100%; /* 高さを100%に設定 */
+    background-color: rgba(0, 0, 0, 0.2); /* 背景色を半透明の黒に設定 */
+    z-index: 999; /* 他の要素よりも前面に表示 */
+    display: none;
+}
+
+#blazor-error-ui-message {
     background: lightyellow;
     bottom: 0;
     box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
-    display: none;
     left: 0;
     padding: 0.6rem 1.25rem 0.7rem 1.25rem;
     position: fixed;
@@ -88,9 +98,10 @@ main {
     z-index: 1000;
 }
 
-    #blazor-error-ui .dismiss {
-        cursor: pointer;
-        position: absolute;
-        right: 0.75rem;
-        top: 0.5rem;
-    }
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.5rem;
+}
+

@@ -16,9 +16,8 @@
 
 ・例外処理
 　① 開発・運用共用
-　　－<ErrorBoundary> にて例外発生時にユーザへ通知
-　　　→ global / InteractiveServer にしているので MainLayout で <ErrorBoundary> が利用可能
-　　　→ ここでフックして、エラーから回復できるようにしている
+　　－<div id="blazor-error-ui"> を利用してエラーを通知
+　　　→ ユーザが業務を続けられないように操作を抑止、リロードしかできないようにする
 　　－例外ファイルログ出力を追加
 　　　→ FileLogger から詳細な例外ログを出力
 　　　→ ローカルのアプリ用フォルダに出力
@@ -26,15 +25,21 @@
 　② 開発中のみ
 　　－appsettings.Development.json に "DetailedErrors": true を設定
 　　　→ ブラウザコンソールでサーバ側で発生した例外のスタックトレースを確認できる
-　　－<ErrorBoundary> にてエラーの詳細を表示
-　　　→ 開発中なら詳細エラーを表示するように設定
 
 ・NuGet パッケージ
 　以下 2 つのみ追加
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="8.0.0-rc.2.23480.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0-rc.2.23480.1" />
+　※ 推移パッケージである Azure.Identity に脆弱性があるため、このパッケージのみ暫定的にパッチ適用している
 
 ・Program.cs
 　DI コンテナにはサービスとして PubsDbContext と FileLogger を追加。
 　他はデフォルト設定のまま。
+
+・DB アクセスカルチャ
+　インバリアントカルチャを利用したいが、DB の仕様が古く、en-us カルチャが必要。
+　このため 	<InvariantGlobalization>false</InvariantGlobalization> の設定が必要。
+　この場合、軽量 Docker イメージの利用に制限が生じる
+　alpine イメージだとカルチャデータが含まれていないため、ICU ライブラリのインストールが必要
+
 
