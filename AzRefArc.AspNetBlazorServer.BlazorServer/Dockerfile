@@ -7,6 +7,10 @@ EXPOSE 443
 RUN apk add --no-cache icu-libs
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 
+# 最新パッチをすべて適用
+RUN apk update && \
+    apk upgrade --available
+
 FROM mcr.microsoft.com/dotnet/sdk:7.0-alpine AS build
 WORKDIR /src
 COPY . /src
