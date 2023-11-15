@@ -9,9 +9,6 @@ namespace AzRefArc.AspNetBlazorServer
     {
         public static void Main(string[] args)
         {
-            CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
-            CultureInfo.CurrentUICulture = CultureInfo.InvariantCulture;
-
             // global, interactive server でプロジェクトを生成
 
             var builder = WebApplication.CreateBuilder(args);

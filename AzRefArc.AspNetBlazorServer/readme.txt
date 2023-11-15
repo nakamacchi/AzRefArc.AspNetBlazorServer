@@ -27,19 +27,16 @@
 　　　→ ブラウザコンソールでサーバ側で発生した例外のスタックトレースを確認できる
 
 ・NuGet パッケージ
-　以下 2 つのみ追加
-    <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="8.0.0-rc.2.23480.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0-rc.2.23480.1" />
-　※ 推移パッケージである Azure.Identity に脆弱性があるため、このパッケージのみ暫定的にパッチ適用している
+　以下 2 つを追加
+    <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
+　さらに推移パッケージである Azure.Identity に脆弱性があるため、このパッケージに対してパッチを適用している
 
 ・Program.cs
-　DI コンテナにはサービスとして PubsDbContext と FileLogger を追加。
+　DI コンテナにはサービスとして PubsDbContext と ExceptionFileLogger を追加。
 　他はデフォルト設定のまま。
 
 ・DB アクセスカルチャ
 　インバリアントカルチャを利用したいが、DB の仕様が古く、en-us カルチャが必要。
-　このため 	<InvariantGlobalization>false</InvariantGlobalization> の設定が必要。
 　この場合、軽量 Docker イメージの利用に制限が生じる
 　alpine イメージだとカルチャデータが含まれていないため、ICU ライブラリのインストールが必要
-
-
