@@ -67,7 +67,7 @@ namespace AzRefArc.AspNetBlazorServer
                             providerOptions.EnableRetryOnFailure();
                         });
                 });
-                builder.Services.AddDataProtection().PersistKeysToDbContext<DataProtectionKeyDbContext>().SetApplicationName("AzRefArc.AspNetBlazorUnited");
+                builder.Services.AddDataProtection().PersistKeysToDbContext<DataProtectionKeyDbContext>().SetApplicationName("AzRefArc.AspNetBlazorServer");
             }
 
             var app = builder.Build();
