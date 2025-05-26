@@ -1,22 +1,11 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS base
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-# alpine 軽量イメージを使う場合にICUライブラリの代わりにinvariant modeを使用
-ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
-
-# 最新パッチはskip (安定性のため)
-
-FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY . /src
-
-# Add fallback source for better reliability
-RUN mkdir -p /root/.nuget/NuGet
-RUN echo '<?xml version="1.0" encoding="utf-8"?><configuration><packageSources><add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" /><add key="fallback" value="https://nuget.cdn.azure.cn/v3/index.json" protocolVersion="3" /></packageSources></configuration>' > /root/.nuget/NuGet/NuGet.Config
-
-# Build with retry for network resiliency
 RUN dotnet build . -c Release -o /app/build
 
 FROM build AS publish
@@ -42,6 +31,4 @@ CMD ["dotnet", "AzRefArc.AspNetBlazorServer.dll"]
 # イメージデバッグ (コンテナ内を参照)
 # sudo docker run --rm -i -t -p:8080:80 app /bin/bash
 # 接続文字列を指定して起動する場合
-# sudo docker run --env "CONNECTIONSTRINGS__PUBSDBCONTEXT=Server=tcp:xxxxx.database.windows.net,1433;Initial Catalog=pubs;Persist Security Info=False;User ID=xxxxx;Password=xxxxxx;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" -p:8080:80 app
-
-
+# sudo docker run --env "CONNECTIONSTRINGS__PUBSDBCONTEXT=Server=tcp:xxxxx.database.windows.net,1433;Initial Catalog=pubs;Persist Security Info=False;User ID=xxxxx;******;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" -p:8080:80 app
