@@ -1,10 +1,7 @@
-name: Build Image and Push to ACR
+name: Build and Push Image as temp to ACR
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master
 
 jobs:
   build-and-push:
@@ -26,12 +23,11 @@ jobs:
           TIMESTAMP=$(date '+%Y%m%d-%H%M%S')
           
           # Build the image once
-          docker build -t ${{ secrets.AZURE_REGISTRY }}/${{ secrets.AZURE_REPOSITORY }}:$TIMESTAMP .
+          docker build -t ${{ secrets.AZURE_REGISTRY }}/${{ secrets.AZURE_REPOSITORY }}:$TIMESTAMP .\AzRefArc.AspNetBlazorServer
           
-          # Tag with 'latest' as well
-          docker tag ${{ secrets.AZURE_REGISTRY }}/${{ secrets.AZURE_REPOSITORY }}:$TIMESTAMP ${{ secrets.AZURE_REGISTRY }}/${{ secrets.AZURE_REPOSITORY }}:latest
-          
+          # Tag with 'temp' as well
+          docker tag ${{ secrets.AZURE_REGISTRY }}/${{ secrets.AZURE_REPOSITORY }}:$TIMESTAMP ${{ secrets.AZURE_REGISTRY }}/${{ secrets.AZURE_REPOSITORY }}:temp
+
           # Push both tags
-          docker push ${{ secrets.AZURE_REGISTRY }}/${{ secrets.AZURE_REPOSITORY }}:$TIMESTAMP
-          docker push ${{ secrets.AZURE_REGISTRY }}/${{ secrets.AZURE_REPOSITORY }}:latest
+          docker push ${{ secrets.AZURE_REGISTRY }}/${{ secrets.AZURE_REPOSITORY }}:temp
 

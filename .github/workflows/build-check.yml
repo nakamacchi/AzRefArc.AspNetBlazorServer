@@ -1,5 +1,4 @@
-name: Build Check for Pull Requests
-# This workflow builds the Docker image for pull requests without pushing it to the registry.
+name: Build Check
 
 on:
   workflow_dispatch:
@@ -16,4 +15,4 @@ jobs:
 
       - name: Docker build (no push)
         run: |
-          docker build -t temp-image:${{ github.sha }} .
+          docker build -t temp-image:${{ github.sha }} .\AzRefArc.AspNetBlazorServer
