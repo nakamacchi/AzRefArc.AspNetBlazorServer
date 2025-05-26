@@ -3,21 +3,21 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-# alpine 軽量イメージを使う場合にはICUライブラリのインストールが必要
-RUN apk add --no-cache icu-libs
-ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+# alpine 軽量イメージを使う場合にICUライブラリの代わりにinvariant modeを使用
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
 
-# 最新パッチをすべて適用
-RUN apk update && \
-    apk upgrade --available
+# 最新パッチはskip (安定性のため)
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
 WORKDIR /src
 COPY . /src
-RUN dotnet build . -c Release -o /app/build
+
+# Restore NuGet packages first to leverage caching
+RUN dotnet restore --disable-parallel
+RUN dotnet build . -c Release -o /app/build --no-restore
 
 FROM build AS publish
-RUN dotnet publish . -c Release -o /app/publish
+RUN dotnet publish . -c Release -o /app/publish --no-restore
 
 FROM base AS final
 WORKDIR /app
