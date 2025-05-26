@@ -26,7 +26,7 @@ jobs:
           TIMESTAMP=$(date '+%Y%m%d-%H%M%S')
           
           # Build the image once
-          docker build -t ${{ secrets.AZURE_REGISTRY }}/${{ secrets.AZURE_REPOSITORY }}:$TIMESTAMP .\AzRefArc.AspNetBlazorServer
+          docker build -t ${{ secrets.AZURE_REGISTRY }}/${{ secrets.AZURE_REPOSITORY }}:$TIMESTAMP ./AzRefArc.AspNetBlazorServer
           
           # Tag with 'latest' as well
           docker tag ${{ secrets.AZURE_REGISTRY }}/${{ secrets.AZURE_REPOSITORY }}:$TIMESTAMP ${{ secrets.AZURE_REGISTRY }}/${{ secrets.AZURE_REPOSITORY }}:latest

@@ -15,4 +15,4 @@ jobs:
 
       - name: Docker build (no push)
         run: |
-          docker build -t temp-image:${{ github.sha }} .\AzRefArc.AspNetBlazorServer
+          docker build -t temp-image:${{ github.sha }} ./AzRefArc.AspNetBlazorServer
