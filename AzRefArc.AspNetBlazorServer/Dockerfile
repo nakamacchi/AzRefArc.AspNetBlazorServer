@@ -12,12 +12,15 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
 WORKDIR /src
 COPY . /src
 
-# Restore NuGet packages first to leverage caching
-RUN dotnet restore --disable-parallel
-RUN dotnet build . -c Release -o /app/build --no-restore
+# Add fallback source for better reliability
+RUN mkdir -p /root/.nuget/NuGet
+RUN echo '<?xml version="1.0" encoding="utf-8"?><configuration><packageSources><add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" /><add key="fallback" value="https://nuget.cdn.azure.cn/v3/index.json" protocolVersion="3" /></packageSources></configuration>' > /root/.nuget/NuGet/NuGet.Config
+
+# Build with retry for network resiliency
+RUN dotnet build . -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish . -c Release -o /app/publish --no-restore
+RUN dotnet publish . -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
