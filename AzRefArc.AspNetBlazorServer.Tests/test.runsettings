@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <TestRunParameters>
+    <Parameter name="BaseUrl" value="https://localhost:7268" />
+    <Parameter name="Browser" value="chromium" />
+    <Parameter name="Headless" value="true" />
+  </TestRunParameters>
+  <MSTest>
+    <Parallelize>
+      <Workers>1</Workers>
+      <Scope>MethodLevel</Scope>
+    </Parallelize>
+  </MSTest>
+</RunSettings>
