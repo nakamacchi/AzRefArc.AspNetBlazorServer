@@ -6,7 +6,7 @@ const config: PlaywrightTestConfig = {
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 1 : 4,
   reporter: 'html',
   use: {
     baseURL: 'https://localhost:7268',
@@ -14,7 +14,7 @@ const config: PlaywrightTestConfig = {
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    headless: true, // ブラウザを表示
+    headless: true, // ヘッドレスモードで実行
     slowMo: 1000, // 操作を1秒間隔で実行（見やすくするため）
   },
   projects: [

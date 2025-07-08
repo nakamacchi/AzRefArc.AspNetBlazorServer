@@ -364,3 +364,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Playwright/テスト関連
+playwright-report/
+test-results/
+*.last-run.json
