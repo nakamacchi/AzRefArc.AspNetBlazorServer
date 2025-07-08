@@ -19,6 +19,9 @@ public class BizGroupATests : PlaywrightTestBase
         await AssertTextExists("Server 更新系アプリ");
         await AssertTextExists("Server QuickGrid による実装アプリ");
         await Expect(Page.Locator("a[href='/#Utilities']")).ToBeVisibleAsync();
+        
+        // テスト成功時のスクリーンショットを撮影
+        await TakeScreenshotAsync("HomePageNavigationTest");
     }
 
     [TestMethod]

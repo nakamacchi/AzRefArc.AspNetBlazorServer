@@ -1,4 +1,4 @@
-import { PlaywrightTestConfig } from '@playwright/test';
+import { PlaywrightTestConfig, devices } from '@playwright/test';
 
 const config: PlaywrightTestConfig = {
   testDir: './PlaywrightTests',
@@ -7,21 +7,24 @@ const config: PlaywrightTestConfig = {
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : 4,
-  reporter: 'html',
+  reporter: [
+    ['html', { outputFolder: 'TestResults/playwright-report', open: 'never' }],
+    ['junit', { outputFile: 'TestResults/junit.xml' }],
+    ['json', { outputFile: 'TestResults/results.json' }]
+  ],
   use: {
     baseURL: 'https://localhost:7268',
     ignoreHTTPSErrors: true,
-    trace: 'on-first-retry',
+    trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     headless: true, // ヘッドレスモードで実行
-    slowMo: 1000, // 操作を1秒間隔で実行（見やすくするため）
   },
   projects: [
     {
       name: 'msedge',
       use: {
-        ...require('@playwright/test').devices['Desktop Edge'],
+        ...devices['Desktop Edge'],
         channel: 'msedge',
       },
     },
