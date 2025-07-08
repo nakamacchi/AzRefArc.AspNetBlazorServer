@@ -5,52 +5,61 @@ namespace AzRefArc.AspNetBlazorServer.Tests.IntegrationTests
     /// <summary>
     /// 基本的なページアクセスの統合テスト
     /// </summary>
-    public class BasicPagesTests : IClassFixture<CustomWebApplicationFactory<Program>>
+    [TestClass]
+    public class BasicPagesTests
     {
-        private readonly CustomWebApplicationFactory<Program> _factory;
-        private readonly HttpClient _client;
+        private static CustomWebApplicationFactory<Program>? _factory;
+        private static HttpClient? _client;
 
-        public BasicPagesTests(CustomWebApplicationFactory<Program> factory)
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext context)
         {
-            _factory = factory;
+            _factory = new CustomWebApplicationFactory<Program>();
             _client = _factory.CreateClient();
         }
 
-        [Theory]
-        [InlineData("/")]
+        [ClassCleanup]
+        public static void ClassCleanup()
+        {
+            _client?.Dispose();
+            _factory?.Dispose();
+        }
+
+        [TestMethod]
+        [DataRow("/")]
         public async Task Get_EndpointsReturnSuccessAndCorrectContentType(string url)
         {
             // Act
-            var response = await _client.GetAsync(url);
+            var response = await _client!.GetAsync(url);
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
-            Assert.Equal("text/html; charset=utf-8", 
+            Assert.AreEqual("text/html; charset=utf-8", 
                 response.Content.Headers.ContentType?.ToString());
         }
 
-        [Fact]
+        [TestMethod]
         public async Task Get_HomePageReturnsSuccess()
         {
             // Act
-            var response = await _client.GetAsync("/");
+            var response = await _client!.GetAsync("/");
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             
             var content = await response.Content.ReadAsStringAsync();
-            Assert.NotNull(content);
-            Assert.Contains("<!DOCTYPE html>", content);
+            Assert.IsNotNull(content);
+            Assert.IsTrue(content.Contains("<!DOCTYPE html>"));
         }
 
-        [Fact]
+        [TestMethod]
         public async Task Get_NonExistentPageReturnsNotFound()
         {
             // Act
-            var response = await _client.GetAsync("/NonExistentPage");
+            var response = await _client!.GetAsync("/NonExistentPage");
 
             // Assert
-            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
         }
     }
 }

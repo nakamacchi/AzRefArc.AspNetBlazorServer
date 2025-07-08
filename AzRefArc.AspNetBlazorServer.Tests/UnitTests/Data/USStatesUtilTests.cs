@@ -3,44 +3,45 @@ namespace AzRefArc.AspNetBlazorServer.Tests.UnitTests.Data
     /// <summary>
     /// USStatesUtilの単体テスト
     /// </summary>
+    [TestClass]
     public class USStatesUtilTests
     {
-        [Fact]
+        [TestMethod]
         public void USStatesUtil_ShouldExist()
         {
             // Arrange & Act
             var type = typeof(USStatesUtil);
 
             // Assert
-            Assert.NotNull(type);
+            Assert.IsNotNull(type);
         }
 
-        [Fact]
+        [TestMethod]
         public void GetAllStates_ReturnsNonEmptyDictionary()
         {
             // Arrange & Act
             var states = USStatesUtil.GetAllStates();
 
             // Assert
-            Assert.NotNull(states);
-            Assert.NotEmpty(states);
+            Assert.IsNotNull(states);
+            Assert.IsTrue(states.Count > 0);
         }
 
-        [Theory]
-        [InlineData("CA", "California")]
-        [InlineData("NY", "New York")]
-        [InlineData("TX", "Texas")]
+        [TestMethod]
+        [DataRow("CA", "California")]
+        [DataRow("NY", "New York")]
+        [DataRow("TX", "Texas")]
         public void GetAllStates_ContainsExpectedStates(string stateCode, string expectedName)
         {
             // Arrange
             var states = USStatesUtil.GetAllStates();
 
             // Act & Assert
-            Assert.True(states.ContainsKey(stateCode), $"州コード '{stateCode}' が見つかりません");
-            Assert.Equal(expectedName, states[stateCode]);
+            Assert.IsTrue(states.ContainsKey(stateCode), $"州コード '{stateCode}' が見つかりません");
+            Assert.AreEqual(expectedName, states[stateCode]);
         }
 
-        [Fact]
+        [TestMethod]
         public void GetAllStates_DoesNotContainInvalidStateCode()
         {
             // Arrange
@@ -48,7 +49,7 @@ namespace AzRefArc.AspNetBlazorServer.Tests.UnitTests.Data
             var invalidStateCode = "XX";
 
             // Act & Assert
-            Assert.False(states.ContainsKey(invalidStateCode), $"無効な州コード '{invalidStateCode}' が含まれています");
+            Assert.IsFalse(states.ContainsKey(invalidStateCode), $"無効な州コード '{invalidStateCode}' が含まれています");
         }
     }
 }

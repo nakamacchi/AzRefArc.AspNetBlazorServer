@@ -21,7 +21,7 @@
 
 ## 使用テストフレームワーク
 
-- **xUnit**: メインテストフレームワーク
+- **MSTest**: Microsoftの標準テストフレームワーク
 - **bUnit**: Blazor コンポーネントテスト用
 - **Microsoft.AspNetCore.Mvc.Testing**: 統合テスト用
 - **Moq**: モッキングフレームワーク

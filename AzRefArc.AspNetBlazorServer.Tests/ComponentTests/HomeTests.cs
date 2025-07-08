@@ -7,20 +7,21 @@ namespace AzRefArc.AspNetBlazorServer.Tests.ComponentTests
     /// <summary>
     /// Homeページコンポーネントのテスト
     /// </summary>
-    public class HomeTests : TestContext
+    [TestClass]
+    public class HomeTests : Bunit.TestContext
     {
-        [Fact]
+        [TestMethod]
         public void Home_RendersCorrectly()
         {
             // Arrange & Act
             var component = RenderComponent<Home>();
 
             // Assert
-            Assert.NotNull(component);
-            Assert.NotNull(component.Markup);
+            Assert.IsNotNull(component);
+            Assert.IsNotNull(component.Markup);
         }
 
-        [Fact]
+        [TestMethod]
         public void Home_ContainsBusinessApplicationContent()
         {
             // Arrange & Act
@@ -28,10 +29,10 @@ namespace AzRefArc.AspNetBlazorServer.Tests.ComponentTests
 
             // Assert
             // 実際のHomeコンポーネントの内容に応じてアサーションを調整
-            Assert.Contains("ASP.NET Core Blazor Server による業務サンプルアプリ", component.Markup);
+            Assert.IsTrue(component.Markup.Contains("ASP.NET Core Blazor Server による業務サンプルアプリ"));
         }
 
-        [Fact]
+        [TestMethod]
         public void Home_ContainsBizGroupASection()
         {
             // Arrange & Act
@@ -39,7 +40,7 @@ namespace AzRefArc.AspNetBlazorServer.Tests.ComponentTests
 
             // Assert
             // BizGroupAセクションが含まれているかチェック
-            Assert.Contains("Server 参照系アプリ", component.Markup);
+            Assert.IsTrue(component.Markup.Contains("Server 参照系アプリ"));
         }
     }
 }

@@ -1,4 +1,4 @@
-global using Xunit;
+global using Microsoft.VisualStudio.TestTools.UnitTesting;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.AspNetCore.Hosting;
 global using Microsoft.AspNetCore.Mvc.Testing;
