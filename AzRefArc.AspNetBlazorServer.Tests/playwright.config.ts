@@ -30,7 +30,7 @@ const config: PlaywrightTestConfig = {
     },
   ],
   webServer: {
-    command: 'dotnet run --project ../AzRefArc.AspNetBlazorServer/AzRefArc.AspNetBlazorServer.csproj',
+    command: 'dotnet run --project ../AzRefArc.AspNetBlazorServer/AzRefArc.AspNetBlazorServer.csproj --launch-profile https',
     port: 7268,
     reuseExistingServer: !process.env.CI,
     timeout: 120000,

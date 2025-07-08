@@ -8,11 +8,11 @@ dotnet restore
 Write-Host "Playwrightブラウザをインストールしています..." -ForegroundColor Green
 dotnet tool install --global Microsoft.Playwright.CLI --ignore-failed-sources
 dotnet build
-pwsh -c "playwright install" -ErrorAction SilentlyContinue
+powershell -c "playwright install" -ErrorAction SilentlyContinue
 
-# アプリケーションをバックグラウンドで起動
+# アプリケーションをバックグラウンドで起動（HTTPSプロファイル使用）
 Write-Host "アプリケーションを起動しています..." -ForegroundColor Green
-$app = Start-Process -FilePath "dotnet" -ArgumentList "run --project ../AzRefArc.AspNetBlazorServer/AzRefArc.AspNetBlazorServer.csproj" -PassThru
+$app = Start-Process -FilePath "dotnet" -ArgumentList "run --project ../AzRefArc.AspNetBlazorServer/AzRefArc.AspNetBlazorServer.csproj --launch-profile https" -PassThru
 
 # アプリケーションの起動を待機
 Write-Host "アプリケーションの起動を待機しています..." -ForegroundColor Yellow
@@ -20,14 +20,14 @@ Start-Sleep -Seconds 30
 
 try {
     # HTTPSエンドポイントをテスト
-    $response = Invoke-WebRequest -Uri "https://localhost:7268" -SkipCertificateCheck:$true -ErrorAction SilentlyContinue
+    $response = Invoke-WebRequest -Uri "https://localhost:7268" -SkipCertificateCheck -ErrorAction SilentlyContinue
     if ($response.StatusCode -eq 200) {
-        Write-Host "アプリケーションが正常に起動しました" -ForegroundColor Green
+        Write-Host "HTTPSアプリケーションが正常に起動しました" -ForegroundColor Green
     } else {
-        Write-Host "アプリケーションの起動確認に失敗しました" -ForegroundColor Red
+        Write-Host "HTTPSアプリケーションの起動確認に失敗しました" -ForegroundColor Red
     }
 } catch {
-    Write-Host "アプリケーションへの接続テストでエラーが発生しました: $_" -ForegroundColor Red
+    Write-Host "HTTPSアプリケーションへの接続テストでエラーが発生しました: $_" -ForegroundColor Red
 }
 
 try {
