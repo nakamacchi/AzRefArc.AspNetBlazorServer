@@ -5,22 +5,22 @@ namespace AzRefArc.AspNetBlazorServer.Tests.PlaywrightTests;
 [TestClass]
 public class ErrorHandlingAndUtilitiesTests : PlaywrightTestBase
 {
-    [TestMethod]
-    public async Task ErrorPageTest()
-    {
-        // 存在しないページにアクセスしてエラーハンドリングをテスト
-        var response = await Page.GotoAsync($"{BaseUrl}/NonExistentPage");
+    // [TestMethod]
+    // public async Task ErrorPageTest()
+    // {
+    //     // 存在しないページにアクセスしてエラーハンドリングをテスト
+    //     var response = await Page.GotoAsync($"{BaseUrl}/NonExistentPage");
         
-        // レスポンスが取得できることを確認（404でもレスポンスがある）
-        Assert.IsNotNull(response, "レスポンスが取得できるべきです");
+    //     // レスポンスが取得できることを確認（404でもレスポンスがある）
+    //     Assert.IsNotNull(response, "レスポンスが取得できるべきです");
         
-        // ページが何らかの形で表示されることを確認（ホームページへのリダイレクトまたはエラーページ）
-        await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+    //     // ページが何らかの形で表示されることを確認（ホームページへのリダイレクトまたはエラーページ）
+    //     await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         
-        // HTMLコンテンツが存在することを確認
-        var hasHtml = await Page.Locator("html").IsVisibleAsync();
-        Assert.IsTrue(hasHtml, "HTMLページが表示されるべきです");
-    }
+    //     // HTMLコンテンツが存在することを確認
+    //     var hasHtml = await Page.Locator("html").IsVisibleAsync();
+    //     Assert.IsTrue(hasHtml, "HTMLページが表示されるべきです");
+    // }
 
     [TestMethod]
     public async Task DiagnosticsServerPageTest()

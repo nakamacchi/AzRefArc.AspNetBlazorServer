@@ -1,0 +1,16 @@
+{
+  "name": "azrefarc.aspnetblazorserver.tests",
+  "version": "1.0.0",
+  "description": "このプロジェクトは、AzRefArc.AspNetBlazorServer アプリケーションの単体テスト、統合テスト、およびコンポーネントテストを含んでいます。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.53.2",
+    "playwright": "^1.53.2"
+  }
+}

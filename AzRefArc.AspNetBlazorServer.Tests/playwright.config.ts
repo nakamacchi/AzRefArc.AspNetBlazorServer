@@ -14,12 +14,15 @@ const config: PlaywrightTestConfig = {
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
+    headless: true, // ブラウザを表示
+    slowMo: 1000, // 操作を1秒間隔で実行（見やすくするため）
   },
   projects: [
     {
-      name: 'chromium',
+      name: 'msedge',
       use: {
-        ...require('@playwright/test').devices['Desktop Chrome'],
+        ...require('@playwright/test').devices['Desktop Edge'],
+        channel: 'msedge',
       },
     },
   ],
